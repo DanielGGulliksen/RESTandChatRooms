@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req,res) => {
-    res.send("Working");
+    res.sendFile(__dirname + "/client.html");
 });
 
 // This dictionary stores all users. It is accessed via the '/api/users' route.
