@@ -152,51 +152,29 @@ app.get('/api/room/:roomid/users', (req, res) => {
         res.send(rooms[id].users)
     }
     }
+});
 
-    app.post('/api/room/:roomid/users', (req, res) => {
+app.post('/api/room/:roomid/users', (req, res) => {
+    let id = req.params.roomid;
+    let user = req.query.id;
 
-        // Omitted input validation
-    
-        rooms[id].users = [];
-
-        let len= Object.keys(rooms).length;
-        if (len > 0) {
-            let placed = false;
-            for (let i = 0; i <= len && !placed; i++){
-                if (rooms[i] == undefined){   // Tests for 'empty' indices in dictionary instead of only
-                                              // appending new dictionaries to the end.
-                    rooms[i] = req.body;
-                    placed = true;
-                    res.send("Status: " + res.statusCode + " while posting " + rooms[i].name + " at index: " + i);
-                }
+    let len= Object.keys(users).length;
+    if (rooms[id] != undefined) {
+        if (user < len) {
+            if (rooms[id].users != undefined){
+                rooms[id].users.push(users[user]);
+                res.send("User with ID '" + user + "' was added to room with ID '" + id +"'.");
+            }
+            else {
+                rooms[id].users = [users[user]];
+                res.send("User with ID '" + user + "' was added to room with ID '" + id +"'.");
             }
         }
-        else {
-            rooms[0] = req.body;
-            res.send(res.statusCode + ": Successfully added " + rooms[0].name + " at index: 0");
-        }
-    });
-
-/**
-    if (id == undefined) { // Tests if 'id' was provided
-        res.send(rooms)   // If 'id' not provided, returns the entire dictionary. (Get all)
-    }
-    else {
-        let len= Object.keys(rooms).length;
-        if (len == 0)
-            res.send("The stored dictionary is empty.");
         else
-            if (id >= len)
-                res.send("The provided 'id' is out of bounds.");
-            else {
-                const dict = rooms[id]; 
-                if (dict == undefined)
-                    res.send("No object with ID '" + id + "' was found.");
-                else
-                    res.send(dict)
-            }                        
+            res.send("The user with ID '" + user + "' does not exist.");
     }
-*/    
+    else
+        res.send("Room with ID '" + id +"' does not exist.");
 });
 
 app.listen(5000);
