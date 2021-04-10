@@ -3,8 +3,8 @@ const express = require('express');
 
 const app = express();
 
-app.get('/', (req,res) => {
-    res.send("Working");
+app.get('', (req,res) => {
+    res.sendFile(__dirname + "/client.html");
 });
 
 // This dictionary stores all users. It is accessed via the '/api/users' route.
@@ -54,7 +54,7 @@ app.post('/api/users', (req, res) => {
                                           // appending new dictionaries to the end.
                 users[i] = req.body;
                 placed = true;
-                res.send("Status: " + res.statusCode + " while posting " + users[i].name + " at index: " + i);
+                res.send("Status: " + res.statusCode + " while af posting " + users[i].name + " at index: " + i);
             }
         }
     }
@@ -123,6 +123,7 @@ app.post('/api/rooms', (req, res) => {
         for (let i = 0; i <= len && !placed; i++){
             if (rooms[i] == undefined){   // Tests for 'empty' indices in dictionary instead of only
                                           // appending new dictionaries to the end.
+                console.log(req.body);
                 rooms[i] = req.body;
                 placed = true;
                 res.send("Status: " + res.statusCode + " while posting " + rooms[i].name + " at index: " + i);
@@ -142,14 +143,17 @@ app.use('/api/room/:roomid/users', express.json());
 app.get('/api/room/:roomid/users', (req, res) => {
     let id = req.params.roomid;
 
+
+    /**
     if (rooms[id] == undefined)
         res.send("Room with ID '" + id + "' does not exist.");
     else {
-        if (rooms[id].users == undefined){
+        if (rooms[id].users == undefined) {
             rooms[id].users = [];
             res.send(rooms[id])
         }
     }
+    */
 /**
     if (id == undefined) { // Tests if 'id' was provided
         res.send(rooms)   // If 'id' not provided, returns the entire dictionary. (Get all)
