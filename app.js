@@ -177,4 +177,39 @@ app.post('/api/room/:roomid/users', (req, res) => {
         res.send("Room with ID '" + id +"' does not exist.");
 });
 
+app.get('/api/room/:roomid/messages', (req, res) => {
+    let user = req.query.id;
+    let roomid = req.params.roomid;
+    let found = false; 
+    
+    if(user != undefined) {
+        if(rooms[roomid] != undefined) {
+            
+            for (var i = 0; i < rooms[roomid].users.length; i++) {
+                if(user == i) {
+                    found = true; 
+                }    
+        }
+            if(found) {
+                if (rooms[roomid].messages != undefined) {
+                    res.send(rooms[roomid].messages);
+                }
+                else {
+                    res.send("This room does not have any messages")
+                }
+        
+            }
+            else {
+                res.send("Only users in this room can get messages");
+            }
+        }
+        else {
+            res.send("No room with id " + roomid + " exists")
+        }
+    }
+    else {
+        res.send("No ID provided in URL");
+    }
+});
+
 app.listen(5000);
