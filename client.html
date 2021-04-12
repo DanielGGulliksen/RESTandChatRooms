@@ -33,7 +33,7 @@
     <div id="response"></div>
 
 <script>
-    let url = "http://localhost:5000/api/users";
+    let url = "http://localhost:5000";
 
     function makeRequest() {
         url += $("#url").val();        
@@ -58,22 +58,18 @@
                         $("#response").text("Error: invalid JSON provided in 'Content' field.");
                         worked = false;
                 }
-            
+                
                 if (worked) {
                     var xhr = new XMLHttpRequest();
                     xhr.open("POST", url, true);
                     xhr.setRequestHeader("Content-Type", "application/json");
-                   /**
-                    xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                    var json = JSON.parse(xhr.responseText);
-                    console.log(json.email + ", " + json.password);
-                    }
-                   
+          
+                    var data = json;
 
+                    xhr.onload  = function() {
+                        var res = xhr.response;
+                        $("#response").text(res);
                     };
-                    */
-                    var data = json;//JSON.stringify({"name": "Julia"});
                     xhr.send(data);
 
                     /**
@@ -84,9 +80,15 @@
                 }
             break;
             case "DELETE":
-            // code block
+                $.ajax({
+                url: url,
+                type: 'DELETE',
+                success: function(data) {
+                    $("#response").text(JSON.stringify(data));
+                }
+                });
         }
-        url = "http://localhost:5000/api/users";
+        url = "http://localhost:5000";
         }
     }
 

@@ -1,16 +1,13 @@
 const { json } = require('express');
 const express = require('express');
 
-/*
+
 const spawn = require('child_process').spawn;
-const bot = spawn('python',y["bot.py", 'bot1']);
-
-
+const bot = spawn('python',["bot.py", 'bot1']);
 
 bot.stdout.on('data', (data) => {
-    console.log(data)
+    console.log(data.toString())
 });
-*/
 
 const app = express();
 
@@ -77,7 +74,6 @@ app.post('/api/users', (req, res) => {
 });
 
 app.delete('/api/users', (req, res) => {
-    console.log(Object.keys(users).length);
     let id = req.query.id;             // Is there a better way to delete a specific object?
     if (id == undefined) { // Tests if 'id' was provided
         res.send("The provided ID was undefined.");
@@ -228,28 +224,34 @@ app.get('/api/room/:roomid/messages', (req, res) => {
 app.get('/api/room/:roomid/:userid/messages', (req, res) => {
     let userid = req.params.userid;
     let roomid = req.params.roomid;
+    let id = req.query.id;
     let found = false;
     const user = users[userid];
     let msgs = [];
-
+    if (users[id] != undefined) {
     if (rooms[roomid] != undefined){
         if (rooms[roomid].users != undefined) {
             if (user != undefined) {
-                for (var i = 0; i < rooms[roomid].users.length; i++) {
-                    let roomuser = rooms[roomid].users[i];
-                        if (user == roomuser){
-                            found = true;
-                        }    
-                }
-                if (found) {
-                    for (var i = 0; i < rooms[roomid].messages.length; i++){
-                        if (rooms[roomid].messages[i].username == user.name)
-                            msgs.push(rooms[roomid].messages[i]);
+                if (rooms[roomid].messages != undefined) {   
+                   for (var i = 0; i < rooms[roomid].users.length; i++) {
+                        let roomuser = rooms[roomid].users[i];
+                            if (user == roomuser){
+                                found = true;
+                            }       
                     }
-                    res.send(msgs);
+                    if (found) {
+                         
+                        for (var i = 0; i < rooms[roomid].messages.length; i++){
+                            if (rooms[roomid].messages[i].username == user.name)
+                                msgs.push(rooms[roomid].messages[i]);
+                        }
+                        res.send(msgs);
+                    }
+                    else
+                        res.send("Only users in this room can get messages");
                 }
                 else
-                    res.send("Only users in this room can get messages");
+                    res.send("This room has no messages.");
             }
             else
                 res.send("User with ID '"+userid+"' does not exist.");
@@ -259,6 +261,9 @@ app.get('/api/room/:roomid/:userid/messages', (req, res) => {
     }
     else
         res.send("No room with id " + roomid + " exists")
+    }
+    else
+        res.send("Only registered users can make get requests, please append the ID of a valid user at the end of the URI. Eg. ...?id=0");
 });
 
 app.use('/api/room/:roomid/:userid/messages', express.json());
@@ -269,6 +274,7 @@ app.post('/api/room/:roomid/:userid/messages', (req, res) => {
     const user = users[userid];
     let msg = req.body; // expects eg. {"content": "hello"}
 
+    if (users[id] != undefined) {
     if (rooms[roomid] != undefined) {
         if (rooms[roomid].users != undefined) {
             if (user != undefined) {
@@ -300,6 +306,9 @@ app.post('/api/room/:roomid/:userid/messages', (req, res) => {
     }
     else
         res.send("No room with id " + roomid + " exists")
+    }
+    else
+        res.send("Only registered users can make get requests, please append the ID of a valid user at the end of the URI. Eg. ...?id=0");
 });
 
 
