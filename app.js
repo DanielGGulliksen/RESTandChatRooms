@@ -1,6 +1,17 @@
 const { json } = require('express');
 const express = require('express');
 
+/*
+const spawn = require('child_process').spawn;
+const bot = spawn('python',y["bot.py", 'bot1']);
+
+
+
+bot.stdout.on('data', (data) => {
+    console.log(data)
+});
+*/
+
 const app = express();
 
 app.get('/', (req,res) => {

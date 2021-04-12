@@ -52,7 +52,7 @@
                 let json = null;
             //    json = JSON.parse($("#content").val());
                 try {
-                    json = JSON.parse($("#content").val());
+                    json = $("#content").val();
                 }
                 catch(err) {
                         $("#response").text("Error: invalid JSON provided in 'Content' field.");
@@ -62,13 +62,25 @@
                 if (worked) {
                     var xhr = new XMLHttpRequest();
                     xhr.open("POST", url, true);
-                    xhr.setRequestHeader("Content-Type", "application/json");   
-                              
-/**                    
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                   /**
+                    xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    console.log(json.email + ", " + json.password);
+                    }
+                   
+
+                    };
+                    */
+                    var data = json;//JSON.stringify({"name": "Julia"});
+                    xhr.send(data);
+
+                    /**
                     $.post(url, json, function (data, status) {
                         $("#response").text(JSON.stringify(data));
                     });
-*/                
+                    */
                 }
             break;
             case "DELETE":
