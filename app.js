@@ -18,7 +18,8 @@ app.use('/api/users', express.json());
  *  the provided URI by appending '?id=1' or '?id=2', for example. 
  */
 app.get('/api/users', (req, res) => {
-    let id = req.query.id;        // Is there a better way to get a specific object?
+    let id = req.query.id;
+
     if (id == undefined) { // Tests if 'id' was provided
         res.send(users)    // If 'id' not provided, returns the entire dictionary. (Get all)
     }
@@ -181,13 +182,14 @@ app.get('/api/room/:roomid/messages', (req, res) => {
     let user = req.query.id;
     let roomid = req.params.roomid;
     let found = false; 
-    
+                                      // Message JSON format: {"username": "Julia", "content": "hello"}
     if(user != undefined) {
         if(rooms[roomid] != undefined) {
             
             for (var i = 0; i < rooms[roomid].users.length; i++) {
-                if(user == i) {
-                    found = true; 
+                let roomuser = rooms[roomid].users[i];
+                if(users[user] == roomuser) {
+                    found = true;
                 }    
         }
             if(found) {
@@ -195,9 +197,8 @@ app.get('/api/room/:roomid/messages', (req, res) => {
                     res.send(rooms[roomid].messages);
                 }
                 else {
-                    res.send("This room does not have any messages")
+                    res.send("Room with ID '"+roomid+"' has no messages.")
                 }
-        
             }
             else {
                 res.send("Only users in this room can get messages");
@@ -211,5 +212,84 @@ app.get('/api/room/:roomid/messages', (req, res) => {
         res.send("No ID provided in URL");
     }
 });
+
+
+app.get('/api/room/:roomid/:userid/messages', (req, res) => {
+    let userid = req.params.userid;
+    let roomid = req.params.roomid;
+    let found = false;
+    const user = users[userid];
+    let msgs = [];
+
+    if (rooms[roomid] != undefined){
+        if (rooms[roomid].users != undefined) {
+            if (user != undefined) {
+                for (var i = 0; i < rooms[roomid].users.length; i++) {
+                    let roomuser = rooms[roomid].users[i];
+                        if (user == roomuser){
+                            found = true;
+                        }    
+                }
+                if (found) {
+                    for (var i = 0; i < rooms[roomid].messages.length; i++){
+                        if (rooms[roomid].messages[i].username == user.name)
+                            msgs.push(rooms[roomid].messages[i]);
+                    }
+                    res.send(msgs);
+                }
+                else
+                    res.send("Only users in this room can get messages");
+            }
+            else
+                res.send("User with ID '"+userid+"' does not exist.");
+        }
+        else
+            res.send("The room with ID '"+ roomid +"' has no users.");
+    }
+    else
+        res.send("No room with id " + roomid + " exists")
+});
+
+app.use('/api/room/:roomid/:userid/messages', express.json());
+
+app.post('/api/room/:roomid/:userid/messages', (req, res) => {
+    let userid = req.params.userid;
+    let roomid = req.params.roomid;
+    const user = users[userid];
+    let msg = req.body; // expects eg. {"content": "hello"}
+
+    if (rooms[roomid] != undefined) {
+        if (rooms[roomid].users != undefined) {
+            if (user != undefined) {
+                for (var i = 0; i < rooms[roomid].users.length; i++) {
+                    let roomuser = rooms[roomid].users[i];
+                        if (user == roomuser){
+                            found = true;
+                        }    
+                }
+                if (found) {
+                    msg.username = user.name;
+                    if (rooms[roomid].messages != undefined) {
+                        rooms[roomid].messages.push(msg);
+                        res.send(rooms[roomid].messages);
+                    }
+                    else {
+                        rooms[roomid].messages = [msg];
+                        res.send(rooms[roomid].messages);
+                    }
+                }
+                else
+                    res.send("Only users in this room can post messages");
+            }
+            else
+                res.send("User with ID '"+userid+"' does not exist.");
+        }
+        else
+            res.send("The room with ID '"+ roomid +"' has no users.");
+    }
+    else
+        res.send("No room with id " + roomid + " exists")
+});
+
 
 app.listen(5000);

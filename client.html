@@ -59,10 +59,17 @@
                         worked = false;
                 }
             
-                if (worked)
+                if (worked) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", url, true);
+                    xhr.setRequestHeader("Content-Type", "application/json");   
+                              
+/**                    
                     $.post(url, json, function (data, status) {
                         $("#response").text(JSON.stringify(data));
                     });
+*/                
+                }
             break;
             case "DELETE":
             // code block
