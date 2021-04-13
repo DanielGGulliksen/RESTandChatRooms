@@ -3,12 +3,14 @@ const express = require('express');
 
 const app = express();
 
+//app.use("/static", express.static('./static/'));
+
 app.get('/', (req,res) => {
     res.sendFile(__dirname + "/index.html");
 });
 
-app.get('/bot', (req, res) => {
-    res.sendFile(__dirname + "/bot.html");
+app.get('/winston', (req, res) => {
+    res.sendFile(__dirname + "/static/winston.html");
 });
 
 // This dictionary stores all users. It is accessed via the '/api/users' route.
