@@ -1,23 +1,14 @@
 const { json } = require('express');
 const express = require('express');
 
-/*
-const spawn = require('child_process').spawn;
-const bot = spawn('python',["bot.py", 'bot1']);
-
-bot.stdout.on('data', (data) => {
-    console.log(data.toString())
-});
-*/
-
 const app = express();
 
 app.get('/', (req,res) => {
     res.sendFile(__dirname + "/index.html");
 });
 
-app.get('/', (req, res) => {
-    res.senFile(__dirname + "/winston.html");
+app.get('/bot', (req, res) => {
+    res.sendFile(__dirname + "/bot.html");
 });
 
 // This dictionary stores all users. It is accessed via the '/api/users' route.
