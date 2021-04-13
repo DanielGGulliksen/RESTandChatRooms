@@ -5,7 +5,6 @@
     <script type="text/javascript" src="static/bots.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     
-
 </head>
 <body>
     <h1>Winston</h1>
@@ -14,43 +13,14 @@
     <div id="two"></div>
     
 
-    <button id="launcher" onclick="hehe();">Start</button> <br/> <br/>
+    <button id="launcher" onclick="launch();">Start</button> <br/> <br/>
 
     <label>Response:</label>
     <div id="response"></div>
 
 
 <script>
-    function launch() {
-        document.getElementById("one").innerHTML = "Winston is now running...";
-        document.getElementById("launcher").remove();
-        url = "http://localhost:5000"
-        // Add self to users dictionary
-        let worked = true;
-
-                let json = null;
-                try {
-                    json = '{"name": "Winston"}';
-                }
-                catch(err) {
-                        $("#response").text("Error: invalid JSON provided in 'Content' field.");
-                        worked = false;
-                }
-                
-                if (worked) {
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", url + "/api/users", true);
-                    xhr.setRequestHeader("Content-Type", "application/json");
-          
-                    var data = json;
-
-                    xhr.onload  = function() {
-                        var res = xhr.response;
-                        $("#response").text(res);
-                    };
-                    xhr.send(data);
-                }
-    }
+    const json = {"name": "Winston"};
 </script>
 
 </body>

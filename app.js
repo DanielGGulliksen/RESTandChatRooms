@@ -37,6 +37,8 @@ app.use('/api/users', express.json());
  */
 app.get('/api/users', (req, res) => {
     let id = req.query.id;
+    let user = req.body
+    console.log(user);
 
     if (id == undefined) { // Tests if 'id' was provided
         res.send(users)    // If 'id' not provided, returns the entire dictionary. (Get all)
@@ -105,7 +107,7 @@ app.delete('/api/users', (req, res) => {
 
 
 // This dictionary stores all rooms. It is accessed via the '/api/rooms' route.
-let rooms = {}
+let rooms = {"0": {"name": "room0"}, "1": {"name": "room1"}}
 
 app.use('/api/rooms', express.json());
 
