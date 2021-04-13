@@ -13,6 +13,18 @@ app.get('/winston', (req, res) => {
     res.sendFile(__dirname + "/static/winston.html");
 });
 
+app.get('/julia', (req, res) => {
+    res.sendFile(__dirname + "/static/julia.html");
+});
+
+app.get('/rick', (req, res) => {
+    res.sendFile(__dirname + "/static/rick.html");
+});
+
+app.get('/rachael', (req, res) => {
+    res.sendFile(__dirname + "/static/rachael.html");
+});
+
 // This dictionary stores all users. It is accessed via the '/api/users' route.
 let users = {}
 
