@@ -72,15 +72,15 @@ app.post('/api/users', (req, res) => {
             if (users[i] == undefined){   // Tests for 'empty' indices in dictionary instead of only
                                           // appending new dictionaries to the end.
                 users[i] = req.body;
-                console.log(users[i]);
                 placed = true;
-                res.send(users);
-                //res.send("Status: " + res.statusCode + " while posting " + users[i].name + " at index: " + i);
+                //res.send(i);
+                res.send("Status: " + res.statusCode + " while posting " + users[i].name + " at index: " + i);
             }
         }
     }
     else {
         users[0] = req.body;
+        //res.send("0");
         res.send(res.statusCode + ": Successfully added " + users[0].name + " at index: 0");
     }
 });

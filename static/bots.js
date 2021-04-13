@@ -12,9 +12,10 @@ function launch() {
     var res = null;
     xhr.onload  = function() {
         res = xhr.response;
-        $("#response").text(res);
+        //$("#response").text(res);
     };
     xhr.send(JSON.stringify(json));
+    console.log(JSON.stringify(res));
 
     switch (json.name) {
         case "Winston":
