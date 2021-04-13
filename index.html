@@ -43,11 +43,7 @@
         const reqType = $("#request").val();
         switch(reqType) {
             case "GET":
-                $.get(url, function (data, status) {
-                    $("#response").text(JSON.stringify(data));
-                });
-            break;
-            case "POST":
+                /*
                 let worked = true;
                 let json = null;
             //    json = JSON.parse($("#content").val());
@@ -61,10 +57,41 @@
                 
                 if (worked) {
                     var xhr = new XMLHttpRequest();
-                    xhr.open("POST", url, true);
+                    xhr.open("GET", url, true);
                     xhr.setRequestHeader("Content-Type", "application/json");
           
                     var data = json;
+
+                    xhr.onload  = function() {
+                        var res = xhr.response;
+                        $("#response").text(res);
+                    };
+                    xhr.send(data);
+                }
+                */
+                $.get(url, function (data, status) {
+                    $("#response").text(JSON.stringify(data));
+                });
+                
+            break;
+            case "POST":
+                let worked1 = true;
+                let json1 = null;
+            //    json = JSON.parse($("#content").val());
+                try {
+                    json1 = $("#content").val();
+                }
+                catch(err) {
+                        $("#response").text("Error: invalid JSON provided in 'Content' field.");
+                        worked = false;
+                }
+                
+                if (worked1) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", url, true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+          
+                    var data = json1;
 
                     xhr.onload  = function() {
                         var res = xhr.response;

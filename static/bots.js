@@ -9,16 +9,78 @@ function launch() {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url + "/api/users", true);
     xhr.setRequestHeader("Content-Type", "application/json");
-      
+    var res = null;
     xhr.onload  = function() {
-        var res = xhr.response;
+        res = xhr.response;
         $("#response").text(res);
     };
     xhr.send(JSON.stringify(json));
 
-    switch (json) {
+    switch (json.name) {
         case "Winston":
-            
-        break;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url + "/api/room/0/users", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+              
+            xhr.onload  = function() {
+                var res = xhr.response;
+                $("#response").text(res);
+            };
+            xhr.send(JSON.stringify(json));
+            break;
+        case "Julia":
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url + "/api/room/1/users", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+              
+            xhr.onload  = function() {
+                var res = xhr.response;
+                $("#response").text(res);
+            };
+            xhr.send(JSON.stringify(json));
+            break;
+        case "Rick":
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url + "/api/room/0/users", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+                  
+            xhr.onload  = function() {
+                var res = xhr.response;
+                $("#response").text(res);
+            };
+            xhr.send(JSON.stringify(json));
+
+            // adding Rick to second room
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url + "/api/room/1/users", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+                  
+            xhr.onload  = function() {
+                var res = xhr.response;
+                $("#response").text(res);
+            };
+            xhr.send(JSON.stringify(json));
+            break;
+            case "Rachael":
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", url + "/api/rooms", true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                  
+                xhr.onload  = function() {
+                    var res = xhr.response;
+                    $("#response").text(res);
+                };
+                xhr.send(JSON.stringify({"name": "room2"}));
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", url + "/api/room/2/users", true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                  
+                xhr.onload  = function() {
+                    var res = xhr.response;
+                    $("#response").text(res);
+                };
+                xhr.send(JSON.stringify(json));
+                break;
     }
 }

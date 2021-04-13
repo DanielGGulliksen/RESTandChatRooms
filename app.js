@@ -37,8 +37,6 @@ app.use('/api/users', express.json());
  */
 app.get('/api/users', (req, res) => {
     let id = req.query.id;
-    let user = req.body
-    console.log(user);
 
     if (id == undefined) { // Tests if 'id' was provided
         res.send(users)    // If 'id' not provided, returns the entire dictionary. (Get all)
@@ -74,8 +72,10 @@ app.post('/api/users', (req, res) => {
             if (users[i] == undefined){   // Tests for 'empty' indices in dictionary instead of only
                                           // appending new dictionaries to the end.
                 users[i] = req.body;
+                console.log(users[i]);
                 placed = true;
-                res.send("Status: " + res.statusCode + " while posting " + users[i].name + " at index: " + i);
+                res.send(users);
+                //res.send("Status: " + res.statusCode + " while posting " + users[i].name + " at index: " + i);
             }
         }
     }
@@ -176,8 +176,27 @@ app.get('/api/room/:roomid/users', (req, res) => {
 
 app.post('/api/room/:roomid/users', (req, res) => {
     let id = req.params.roomid;
-    let user = req.query.id;
+    let user = req.body;
 
+    let len= Object.keys(users).length;
+    if (rooms[id] != undefined) {
+        if (user != undefined) {
+            if (rooms[id].users != undefined){
+                rooms[id].users.push(user);
+                res.send("User '" + user.name + "' was added to room with ID '" + id +"'.");
+            
+            }
+            else {
+                rooms[id].users = [user];
+                res.send("User '" + user.name + "' was added to room with ID '" + id +"'.");
+            }
+        }
+        else
+            res.send("No valid JSON object was provided, a single attribute object 'name' is expected. Eg. {'name': 'Karl'}");
+    }
+    else
+        res.send("Room with ID '" + id +"' does not exist.");
+/*
     let len= Object.keys(users).length;
     if (rooms[id] != undefined) {
         if (user < len) {
@@ -195,6 +214,7 @@ app.post('/api/room/:roomid/users', (req, res) => {
     }
     else
         res.send("Room with ID '" + id +"' does not exist.");
+*/
 });
 
 app.get('/api/room/:roomid/messages', (req, res) => {
