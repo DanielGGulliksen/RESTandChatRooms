@@ -2,27 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script type="text/javascript" src="static/bots.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
     
+
 </head>
 <body>
     <h1>Winston</h1>
 
     <div id="one"></div>
-
-  
+    <div id="two"></div>
     
 
-    <button onclick="launch();">Start</button>
+    <button id="launcher" onclick="hehe();">Start</button> <br/> <br/>
 
-    Response:
+    <label>Response:</label>
     <div id="response"></div>
 
 
 <script>
     function launch() {
         document.getElementById("one").innerHTML = "Winston is now running...";
+        document.getElementById("launcher").remove();
         url = "http://localhost:5000"
         // Add self to users dictionary
         let worked = true;
