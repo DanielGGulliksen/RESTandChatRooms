@@ -80,7 +80,7 @@ function sendMessages(ownIndex,roomsLength) {
        
         for (let i = 0; i < roomsLength; i++){
           fetch(url + '/api/room/'+i+'/'+ownIndex+'/messages?id='+ownIndex, {method: 'POST', headers: {'Content-Type': 'application/json'}, 
-              body: JSON.stringify({"content": formulate()})});
+              body: JSON.stringify({"content": formulate(counter)})});
         //  .then((response) => response.json());
        //   .then((data) => { 
        //   //sendMessages(data.id);
