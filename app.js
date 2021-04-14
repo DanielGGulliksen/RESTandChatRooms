@@ -73,15 +73,16 @@ app.post('/api/users', (req, res) => {
                                           // appending new dictionaries to the end.
                 users[i] = req.body;
                 placed = true;
-                //res.send(i);
-                res.send("Status: " + res.statusCode + " while posting " + users[i].name + " at index: " + i);
+                res.send({"id":i, "response": "User '" + users[i].name + "' was successfully posted at index " + i});
+                //res.send({"id":i});
+                //res.send("Status: " + res.statusCode + " while posting " + users[i].name + " at index: " + i);
             }
         }
     }
     else {
         users[0] = req.body;
-        //res.send("0");
-        res.send(res.statusCode + ": Successfully added " + users[0].name + " at index: 0");
+        res.send({"id":0, "response": "User '" + users[0].name + "' was successfully posted at index " + 0});
+        //res.send(res.statusCode + ": Successfully added " + users[0].name + " at index: 0");
     }
 });
 
@@ -224,28 +225,31 @@ app.get('/api/room/:roomid/messages', (req, res) => {
                                       // Message JSON format: {"username": "Julia", "content": "hello"}
     if(user != undefined) {
         if(rooms[roomid] != undefined) {
-            
-            for (var i = 0; i < rooms[roomid].users.length; i++) {
-                let roomuser = rooms[roomid].users[i];
-                if(users[user] == roomuser) {
-                    found = true;
-                }    
-        }
-            if(found) {
-                if (rooms[roomid].messages != undefined) {
-                    res.send(rooms[roomid].messages);
+            if (rooms[roomid].users != undefined) {
+                for (var i = 0; i < rooms[roomid].users.length; i++) {
+                    let roomuser = rooms[roomid].users[i];
+                    if(users[user].name == roomuser.name) {
+                        found = true;
+                    }    
+                }
+                if(found) {
+                    if (rooms[roomid].messages != undefined) {
+                        res.send(rooms[roomid].messages);
+                    }
+                    else {
+                        res.send("Room with ID '"+roomid+"' has no messages.");
+                    }
                 }
                 else {
-                    res.send("Room with ID '"+roomid+"' has no messages.")
+                    res.send("Only users in this room can get messages");
                 }
             }
             else {
-                res.send("Only users in this room can get messages");
+                res.send("Room has no users.");    
             }
         }
-        else {
-            res.send("No room with id " + roomid + " exists")
-        }
+        else
+            res.send("No room with id " + roomid + " exists");   
     }
     else {
         res.send("No ID provided in URL");
@@ -306,13 +310,14 @@ app.post('/api/room/:roomid/:userid/messages', (req, res) => {
     const user = users[userid];
     let msg = req.body; // expects eg. {"content": "hello"}
 
-    if (users[id] != undefined) {
+    if (user != undefined) {
     if (rooms[roomid] != undefined) {
         if (rooms[roomid].users != undefined) {
             if (user != undefined) {
+                let found = false;
                 for (var i = 0; i < rooms[roomid].users.length; i++) {
                     let roomuser = rooms[roomid].users[i];
-                        if (user == roomuser){
+                        if (user.name == roomuser.name){
                             found = true;
                         }    
                 }
