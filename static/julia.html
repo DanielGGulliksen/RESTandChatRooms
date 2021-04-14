@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <script type="text/javascript" src="static/bots.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    
+
 </head>
 <body>
     <h1>Julia</h1>
@@ -20,13 +23,25 @@
 <script>
     const json = {"name": "Julia"};
 
-    function formulate(counter) {
-        let msg = "hello";
+const messages = ['Hello', 'How is the weather?', 'Do you have any pets?', 'How is your'];
+    const randomIndex = Math.round(Math.random()*messages.length);
+    document.getElementById("").innerHTML = messages[randomIndex];
 
+    /*function formulate(counter) {
+        
+
+        let msg = "Hello";
+        switch (counter) {
+        case 1: 
+            msg = "How is your day?";
+        break; 
+        case 2:
+            msg = "Bye"
+        }
         // endre msg
 
         return msg;
-    }
+    }*/
 </script>
 
 </body>

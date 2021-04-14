@@ -19,15 +19,24 @@
 
 <script>
     const json = {"name": "Winston"};
-
     function formulate(counter) {
-        let msg = "hey";
-
-        // endre msg
-
-        return msg;
+    let msg = "Hey";
+    switch (counter) {
+    case 1: 
+        msg = "Today is wonderful";
+    break; 
+    case 2:
+        msg = "Anoyone here play games?"
+    break;
+    case 3:
+        msg = "Bye!"
+    break; 
     }
+        // endre msg
+        return msg;
+        }
 </script>
+        
 
 </body>
 </html>

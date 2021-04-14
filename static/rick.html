@@ -19,14 +19,19 @@
 
 <script>
     const json = {"name": "Rick"};
-
     function formulate(counter) {
-        let msg = "hello";
-
-        // endre msg
-
-        return msg;
+    let msg = "hello";
+    switch (counter) {
+    case 1: 
+        msg = "Did you know a cow-bison hybrid is called a beefalo?";
+    break; 
+    case 2:
+        msg = "I´m hungry....";
+    break; 
     }
+        // endre msg
+        return msg;
+}
 </script>
 
 </body>
