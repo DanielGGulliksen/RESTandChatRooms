@@ -237,7 +237,7 @@ app.get('/api/room/:roomid/messages', (req, res) => {
                         res.send(rooms[roomid].messages);
                     }
                     else {
-                        res.send("Room with ID '"+roomid+"' has no messages.");
+                        res.send([]);
                     }
                 }
                 else {

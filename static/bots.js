@@ -60,7 +60,20 @@ fetch(url + '/api/users')
         (response) => response.json())
     .then((rooms) => {
         let rlen= Object.keys(rooms).length;
-        sendMessages(botIndex, rlen);
+        let ownRooms = [];
+        for (let i = 0; i < rlen; i++){
+            const room = rooms[i];
+            if (room.users != undefined) {
+                let ulen= Object.keys(room.users).length;
+                for (let j = 0; j < ulen; j++){
+                    if (room.users[j].name == json.name){
+                        ownRooms.push(i);
+                    }
+                }
+            }
+            //
+        }
+        sendMessages(botIndex, rlen, ownRooms); // add rooms dictionary
     });
 });
 
@@ -70,26 +83,49 @@ fetch(url + '/api/users')
 
 let counter = 0;
 
-function sendMessages(ownIndex,roomsLength) {         
-  //fetch(url + '/api/room/'+0+'/'+ownIndex+'/messages?id='+ownIndex, {method: 'POST', headers: {'Content-Type': 'application/json'}, 
-  //            body: JSON.stringify({"content": formulate()})});
-       
+function sendMessages(ownIndex,roomsLength, ownRooms) {         
     setTimeout(function() {  
-
+        document.getElementById("response").innerHTML = "";
     //console.log(ownIndex + ", " + roomsLength + ", " + message);
-       
+    
         for (let i = 0; i < roomsLength; i++){
-          fetch(url + '/api/room/'+i+'/'+ownIndex+'/messages?id='+ownIndex, {method: 'POST', headers: {'Content-Type': 'application/json'}, 
-              body: JSON.stringify({"content": formulate(counter)})});
-        //  .then((response) => response.json());
-       //   .then((data) => { 
-       //   //sendMessages(data.id);
-       //   });
-          //console.log("Message posted: " + message);
-        }
-  counter++;                 
-  if (counter < 10) {           
-    sendMessages(ownIndex,roomsLength);          
+            fetch(url + '/api/room/'+i+'/'+ownIndex+'/messages?id='+ownIndex, {method: 'POST', headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify({"content": formulate(counter)})});
+
+            
+                
+                for (let j = 0; j < ownRooms.length; j++){
+                    if (i = ownRooms[j]){
+                        //console.log(i + ", " + ownRooms + ", " + ownIndex)
+                        fetch(url + '/api/room/'+i+'/messages?id='+ownIndex)
+                        .then((response) => response.json())
+                        .then((chat) => {
+                             console.log("Id:" + i + ', ' + ownRooms[j]);
+                             if (chat != undefined) {
+                                 let clen= Object.keys(chat).length;
+                                 let input = "<table id='"+i+"'>";
+                                 for (let j = 0; j < clen; j++){
+                                     let mess = chat[j];
+                                     input += "<tr>" + mess.username + ": " + mess.content + "</tr><br/>";
+                                 }
+                                 document.getElementById("response").innerHTML = input + "</table>";
+                             }
+                             else
+                                 console.log("chat was undefined");
+                         });
+                    }
+                }
+        }            
+
+        
+        counter++;                 
+        if (counter < 10) {           
+        sendMessages(ownIndex,roomsLength, ownRooms);          
   }                     
 }, 5000)
+}
+
+function getChat(i, ownRooms, ownIndex){
+    
+
 }
