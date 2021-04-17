@@ -19,22 +19,41 @@
 
 
 <script>
+    // This object is used in bots.js
     const json = {"name": "Julia"};
 
-    //const messages = ['Hello', 'How is the weather?', 'Do you have any pets?', 'How is your'];
-    //const randomIndex = Math.round(Math.random()*messages.length);
-
+    // This function is where this bot formulates the messages it will post in its chat room(s)
     function formulate(counter) {
-        let msg = "Hello";
+       let msg = "Distraction is the enemy of vision";
+
         switch (counter) {
         case 1: 
-            msg = "How is your day?";
+            msg = "Trust me ... I won't stop";
         break; 
         case 2:
-            msg = "Bye"
+            msg = "People tried to talk me out of running for President. Never let weak controlling people kill your spirit";
+        break;
+        case 3:
+            msg = "I care. I care about everything. Sometimes not giving a f#%k is caring the most.";
+        break;
+        case 4:
+            msg = "I still think I am the greatest.";
+        break;
+        case 5:
+            msg = "My memories are from the future";
+        break;
+        case 6:
+            msg = "Perhaps I should have been more like water today";
+        break;
+        case 7:
+            msg = "Let's be like water";
+        break;
+        case 8:
+            msg = "I need an army of angels to cover me while I pull this sword out of the stone";
+        break;
+        case 9:
+            msg = "I'm a genius.";       
         }
-        // endre msg
-
         return msg;
     }
 </script>

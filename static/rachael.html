@@ -17,13 +17,41 @@
 
 
 <script>
+    // This object is used in bots.js
     const json = {"name": "Rachael"};
 
+    // This function is where this bot formulates the messages it will post in its chat room(s)
     function formulate(counter) {
-        let msg = "hello";
+        let msg = "There are 10 types of people in this world...";
 
-        // endre msg
-
+        switch (counter) {
+        case 1: 
+            msg = "Those who understand binary and those who don't";
+        break; 
+        case 2:
+            msg = "...";
+        break;
+        case 3:
+            msg = "How many programmers does it take to change a lightbulb?";
+        break;
+        case 4:
+            msg = "None that's a hardware problem";
+        break;
+        case 5:
+            msg = "...";
+        break;
+        case 6:
+            msg = "What’s the advantage of living in Switzerland?";
+        break;
+        case 7:
+            msg = "Well, the flag is a big plus.";
+        break;
+        case 8:
+            msg = "What is the difference between ignorance and apathy?";
+        break;
+        case 9:
+            msg = "I don't know and I don't care.";       
+        }
         return msg;
     }
 </script>
