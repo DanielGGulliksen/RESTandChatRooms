@@ -25,7 +25,7 @@
 
     <button onclick="makeRequest();">Send</button> <br/> <br/>
 
-    <button onclick=info();>Further information</button>
+    <button onclick=info();>Help</button>
     <div id="info"></div>  <br/>
     <div id="info2"></div>  <br/> 
 
@@ -33,43 +33,23 @@
     <div id="response"></div>
 
 <script>
-    let url = "http://localhost:5000";
+    
 
     function makeRequest() {
-        url += $("#url").val();        
-//        $("#response").text(url)
+        let url = "http://localhost:5000";
+        url += $("#url").val();
+        const reqType = $("#request").val();
+
+        // This 'if' statement ensures that no requests are called on the root route. This
+        // avoid an HTML script being returned, in addition to unwanted errors.
         if (url != "http://localhost:5000"){
 
-        const reqType = $("#request").val();
+
+        // This 'switch' statement allows the user to choose between making a GET, POST
+        // or DELETE request.
         switch(reqType) {
             case "GET":
-                /*
-                let worked = true;
-                let json = null;
-            //    json = JSON.parse($("#content").val());
-                try {
-                    json = $("#content").val();
-                }
-                catch(err) {
-                        $("#response").text("Error: invalid JSON provided in 'Content' field.");
-                        worked = false;
-                }
-                
-                if (worked) {
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("GET", url, true);
-                    xhr.setRequestHeader("Content-Type", "application/json");
-          
-                    var data = json;
-
-                    xhr.onload  = function() {
-                        var res = xhr.response;
-                        $("#response").text(res);
-                    };
-                    xhr.send(data);
-                }
-                */
-                $.get(url, function (data, status) {
+                $.get(url, function (data, status) {   
                     $("#response").text(JSON.stringify(data));
                 });
                 
@@ -77,7 +57,6 @@
             case "POST":
                 let worked1 = true;
                 let json1 = null;
-            //    json = JSON.parse($("#content").val());
                 try {
                     json1 = $("#content").val();
                 }
@@ -85,10 +64,9 @@
                         $("#response").text("Error: invalid JSON provided in 'Content' field.");
                         worked = false;
                 }
-                
                 if (worked1) {
                     var xhr = new XMLHttpRequest();
-                    xhr.open("POST", url, true);
+                    xhr.open("POST", url, true);     
                     xhr.setRequestHeader("Content-Type", "application/json");
           
                     var data = json1;
@@ -98,12 +76,6 @@
                         $("#response").text(res);
                     };
                     xhr.send(data);
-
-                    /**
-                    $.post(url, json, function (data, status) {
-                        $("#response").text(JSON.stringify(data));
-                    });
-                    */
                 }
             break;
             case "DELETE":
@@ -115,7 +87,7 @@
                 }
                 });
         }
-        url = "http://localhost:5000";
+
         }
     }
 
