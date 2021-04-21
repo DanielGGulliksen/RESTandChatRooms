@@ -8,7 +8,7 @@
   },
   "author": "",
   "repository": {
-    "url":"git://github.com/degetei/restandchatrooms"
+    "url":"git://github.com/degetei/restandchatrooms.git"
   },
   "license": "ISC",
   "dependencies": {
