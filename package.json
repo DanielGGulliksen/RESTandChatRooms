@@ -11,5 +11,9 @@
   "dependencies": {
     "express": "^4.17.1",
     "nodemon": "^2.0.7"
-  }
+  },
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
+  },
+  "repository": "https://github.com/Degetei/RESTandChatRooms.git"
 }
