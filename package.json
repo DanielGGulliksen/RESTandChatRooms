@@ -1,5 +1,5 @@
 {
-  "name": "restandchatrooms",
+  "name": "@degetei/restandchatrooms",
   "version": "1.0.0",
   "description": "",
   "main": "index.html",
@@ -9,6 +9,9 @@
   "author": "",
   "repository": {
     "url":"git://github.com/degetei/restandchatrooms.git"
+  },
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
   },
   "license": "ISC",
   "dependencies": {
